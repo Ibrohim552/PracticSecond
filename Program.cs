@@ -1,3 +1,4 @@
+using FarmConnect.Infrastructure;
 using FarmConnect.Infrastructure.Repositories.BuyerRepository.BuyerCommandRepository;
 using FarmConnect.Infrastructure.Repositories.BuyerRepository.BuyerReadRepository;
 using FarmConnect.Infrastructure.Repositories.FarmerRepository.FarmerCommandRespository;
@@ -10,6 +11,7 @@ using FarmConnect.Infrastructure.Repositories.ProductRepository.ProductCommandRe
 using FarmConnect.Infrastructure.Repositories.ProductRepository.ProductReadRepository;
 using FarmConnect.Infrastructure.Services.BuyerService;
 using FarmConnect.Infrastructure.Services.FarmerService;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +29,8 @@ builder.Services.AddScoped<IOrderReadRepository, OrderReadRepository>();
 builder.Services.AddScoped<IOrderCommandRepository, OrderCommandRepository>();
 builder.Services.AddScoped<IProductReadRepository, ProductReadRepository>();
 builder.Services.AddScoped<IProductCommandRepository, ProductCommandRepository>();
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
 var app = builder.Build();
